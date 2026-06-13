@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#C8873A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Café Branyl">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Café Branyl</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F5F0;--surface:#FFF;--surface2:#F0EDE8;
+  --border:#E5E0D8;--border2:#D0C8BC;
+  --text:#1C1A17;--text2:#6B6460;--text3:#A09890;
+  --accent:#C8873A;--accent-bg:#FDF3E7;--accent-text:#7A4E1A;
+  --igor-bg:#FFFBEB;--igor-text:#78350F;
+  --jorge-bg:#EEF2FF;--jorge-text:#3730A3;
+  --evelyn-bg:#FDF2F8;--evelyn-text:#831843;
+  --fabiano-bg:#ECFDF5;--fabiano-text:#064E3B;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#161412;--surface:#1E1C19;--surface2:#272420;
+    --border:#2E2B27;--border2:#3A3630;
+    --text:#F0ECE6;--text2:#948C82;--text3:#5C5650;
+    --accent:#D4904A;--accent-bg:#2A1F12;--accent-text:#E8B07A;
+    --igor-bg:#231A0A;--igor-text:#FCD34D;
+    --jorge-bg:#1E1B3A;--jorge-text:#A5B4FC;
+    --evelyn-bg:#2A1221;--evelyn-text:#F9A8D4;
+    --fabiano-bg:#0C2218;--fabiano-text:#6EE7B7;
+  }
+}
+html,body{height:100%;overflow-x:hidden}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  background:var(--bg);color:var(--text);
+  padding:env(safe-area-inset-top,16px) 16px env(safe-area-inset-bottom,24px);
+  padding-top:max(env(safe-area-inset-top),16px);
+}
+/* HEADER */
+.app-header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.app-icon{width:42px;height:42px;background:var(--accent);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.app-header h1{font-size:18px;font-weight:700;letter-spacing:-0.3px}
+.app-header p{font-size:12px;color:var(--text2);margin-top:1px}
+/* BANNER */
+.banner{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent)}
+.av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.b-info .dl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.b-info .pn{font-size:20px;font-weight:700}
+.b-info .sl{font-size:12px;color:var(--text2);margin-top:2px}
+.b-right{margin-left:auto;text-align:right;flex-shrink:0}
+.b-right .wd{font-size:10px;color:var(--text3)}
+.b-right .db{font-size:34px;font-weight:700;color:var(--accent);line-height:1}
+/* CARD */
+.cal-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px}
+.cal-nav{display:flex;align-items:center;gap:6px;margin-bottom:14px}
+.nb{width:36px;height:36px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);cursor:pointer;font-size:20px;color:var(--text);display:flex;align-items:center;justify-content:center;-webkit-appearance:none}
+.nb:active{background:var(--border)}
+.ml{font-size:15px;font-weight:600;flex:1;text-align:center}
+.tb{border:1px solid var(--border2);border-radius:8px;background:var(--surface2);padding:6px 12px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text);-webkit-appearance:none}
+.tb:active{background:var(--border)}
+/* GRID */
+.gh{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin-bottom:3px}
+.gh span{font-size:10px;font-weight:600;color:var(--text3);text-align:center;text-transform:uppercase;letter-spacing:0.5px;padding:3px 0}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+.dc{background:var(--surface2);border:1px solid transparent;border-radius:8px;padding:7px 5px;min-height:58px;display:flex;flex-direction:column;gap:4px}
+.dc.empty{background:transparent;border-color:transparent}
+.dc.past{opacity:0.38}
+.dc.today{background:var(--accent-bg);border:2px solid var(--accent)}
+.dn{font-size:11px;font-weight:600;color:var(--text3);line-height:1}
+.dc.today .dn{color:var(--accent-text);font-weight:700}
+/* BADGES */
+.badge{display:inline-block;font-size:10px;font-weight:600;border-radius:5px;padding:2px 5px;line-height:1.4}
+.bi{background:var(--igor-bg);color:var(--igor-text)}
+.bj{background:var(--jorge-bg);color:var(--jorge-text)}
+.be{background:var(--evelyn-bg);color:var(--evelyn-text)}
+.bf{background:var(--fabiano-bg);color:var(--fabiano-text)}
+.ai{background:var(--igor-bg);color:var(--igor-text)}
+.aj{background:var(--jorge-bg);color:var(--jorge-text)}
+.ae{background:var(--evelyn-bg);color:var(--evelyn-text)}
+.af{background:var(--fabiano-bg);color:var(--fabiano-text)}
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);align-items:center}
+.ll{font-size:11px;color:var(--text3);font-weight:500}
+/* INSTALL BANNER */
+.install-bar{display:none;background:var(--accent);color:#fff;border-radius:12px;padding:12px 16px;margin-bottom:14px;align-items:center;gap:10px;font-size:13px;cursor:pointer}
+.install-bar.show{display:flex}
+.install-bar strong{font-weight:700}
+.install-bar span{font-size:11px;opacity:0.85}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="app-icon">☕</div>
+  <div>
+    <h1>Café da manhã</h1>
+    <p>Rodízio semanal · Branyl</p>
+  </div>
+</div>
+
+<div id="install-bar" class="install-bar">
+  <div style="font-size:24px">📲</div>
+  <div>
+    <strong>Instalar app</strong><br>
+    <span>Adicionar à tela inicial</span>
+  </div>
+</div>
+
+<div id="banner" class="banner"></div>
+
+<div class="cal-card">
+  <div class="cal-nav">
+    <button class="nb" id="prev">&#8249;</button>
+    <span class="ml" id="ml"></span>
+    <button class="nb" id="next">&#8250;</button>
+    <button class="tb" id="gt">Hoje</button>
+  </div>
+  <div class="gh">
+    <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="legend">
+    <span class="ll">Turno:</span>
+    <span class="badge bi">Igor</span>
+    <span class="badge bj">Jorge</span>
+    <span class="badge be">Evelyn</span>
+    <span class="badge bf">Fabiano</span>
+  </div>
+</div>
+
+<script>
+var PATTERN  = ['Igor','Jorge','Evelyn','Fabiano'];
+var INI      = {Igor:'IG',Jorge:'JO',Evelyn:'EV',Fabiano:'FA'};
+var AVC      = {Igor:'ai',Jorge:'aj',Evelyn:'ae',Fabiano:'af'};
+var BDC      = {Igor:'bi',Jorge:'bj',Evelyn:'be',Fabiano:'bf'};
+var MONTHS   = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+var DAYSL    = ['','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+var DAYSS    = ['','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+function mkDate(y,m,d){var dt=new Date(y,m-1,d);dt.setHours(0,0,0,0);return dt}
+
+var ANCHOR = mkDate(2026,6,16);
+var START  = mkDate(2026,6,16);
+var TODAY  = new Date(); TODAY.setHours(0,0,0,0);
+var curY   = TODAY.getFullYear();
+var curM   = TODAY.getMonth();
+
+function getPerson(date){
+  var d=new Date(date.getTime()); d.setHours(0,0,0,0);
+  var a=new Date(ANCHOR.getTime()); a.setHours(0,0,0,0);
+  var count=0, step=(d.getTime()>=a.getTime())?1:-1;
+  var cur=new Date(a.getTime());
+  while(cur.getTime()!==d.getTime()){
+    cur.setDate(cur.getDate()+step);
+    if(cur.getDay()!==0) count+=step;
+  }
+  return PATTERN[((count%4)+4)%4];
+}
+
+function renderBanner(){
+  var el=document.getElementById('banner');
+  var dow=TODAY.getDay();
+  var dd=TODAY.getDate(), mo=MONTHS[TODAY.getMonth()], yr=TODAY.getFullYear();
+  if(dow===0){
+    el.innerHTML='<div class="av" style="background:var(--surface2);font-size:22px">😄</div>'+
+      '<div class="b-info"><div class="dl">Hoje — Domingo</div>'+
+      '<div class="pn" style="font-size:16px">Dia de descanso</div>'+
+      '<div class="sl">Sem café do rodízio</div></div>'+
+      '<div class="b-right"><div class="wd">Dom</div><div class="db">'+dd+'</div></div>';
+    return;
+  }
+  if(TODAY.getTime()<START.getTime()){
+    el.innerHTML='<div class="av" style="background:var(--surface2);font-size:22px">📅</div>'+
+      '<div class="b-info"><div class="dl">'+DAYSL[dow]+', '+dd+' de '+mo+' de '+yr+'</div>'+
+      '<div class="pn" style="font-size:16px">Começa dia 16/jun</div>'+
+      '<div class="sl">Aguardando início</div></div>'+
+      '<div class="b-right"><div class="wd">'+DAYSS[dow]+'</div><div class="db">'+dd+'</div></div>';
+    return;
+  }
+  var p=getPerson(TODAY);
+  el.innerHTML='<div class="av '+AVC[p]+'">'+INI[p]+'</div>'+
+    '<div class="b-info"><div class="dl">'+DAYSL[dow]+', '+dd+' de '+mo+' de '+yr+'</div>'+
+    '<div class="pn">'+p+'</div>'+
+    '<div class="sl">Vez de trazer o café ☕</div></div>'+
+    '<div class="b-right"><div class="wd">'+DAYSS[dow]+'</div><div class="db">'+dd+'</div></div>';
+}
+
+function renderGrid(){
+  var grid=document.getElementById('grid');
+  document.getElementById('ml').textContent=MONTHS[curM]+' '+curY;
+  while(grid.firstChild) grid.removeChild(grid.firstChild);
+
+  var dim=new Date(curY,curM+1,0).getDate();
+  var fw=1;
+  while(new Date(curY,curM,fw).getDay()===0) fw++;
+  var sc=new Date(curY,curM,fw).getDay()-1;
+  var cells=[];
+  for(var i=0;i<sc;i++) cells.push(null);
+  for(var d=1;d<=dim;d++){
+    var dw=new Date(curY,curM,d).getDay();
+    if(dw===0){var f=cells.length%6;if(f)for(var j=f;j<6;j++) cells.push(null);}
+    else cells.push(d);
+  }
+  for(var k=0;k<cells.length;k++){
+    var cell=document.createElement('div');
+    var day=cells[k];
+    if(day===null){cell.className='dc empty';}
+    else{
+      var date=mkDate(curY,curM+1,day);
+      var isT=(date.getTime()===TODAY.getTime());
+      var isP=(date.getTime()<TODAY.getTime())&&!isT;
+      var bS=(date.getTime()<START.getTime())&&!isT;
+      cell.className='dc'+(isT?' today':isP?' past':'');
+      var h='<div class="dn">'+day+'</div>';
+      if(!bS){var p=getPerson(date);h+='<span class="badge '+BDC[p]+'">'+p+'</span>';}
+      cell.innerHTML=h;
+    }
+    grid.appendChild(cell);
+  }
+}
+
+document.getElementById('prev').addEventListener('click',function(){
+  curM--;if(curM<0){curM=11;curY--;}renderGrid();
+});
+document.getElementById('next').addEventListener('click',function(){
+  curM++;if(curM>11){curM=0;curY++;}renderGrid();
+});
+document.getElementById('gt').addEventListener('click',function(){
+  curY=TODAY.getFullYear();curM=TODAY.getMonth();renderGrid();
+});
+
+// PWA Install prompt (Android)
+var deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',function(e){
+  e.preventDefault();deferredPrompt=e;
+  document.getElementById('install-bar').classList.add('show');
+});
+document.getElementById('install-bar').addEventListener('click',function(){
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;
+    document.getElementById('install-bar').classList.remove('show');}
+});
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
+
+renderBanner();
+renderGrid();
+</script>
+</body>
+</html>
