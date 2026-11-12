@@ -93,6 +93,7 @@ body{
 .install-bar.show{display:flex}
 .install-bar strong{font-weight:700}
 .install-bar span{font-size:11px;opacity:0.85}
+.install-bar .x{margin-left:auto;flex-shrink:0;background:transparent;border:0;color:#fff;font-size:18px;line-height:1;padding:8px;cursor:pointer;-webkit-appearance:none}
 </style>
 </head>
 <body>
@@ -111,6 +112,15 @@ body{
     <strong>Instalar app</strong><br>
     <span>Adicionar à tela inicial</span>
   </div>
+</div>
+
+<div id="ios-bar" class="install-bar" style="cursor:default">
+  <div style="font-size:24px">📲</div>
+  <div>
+    <strong>Instalar no iPhone</strong><br>
+    <span>Toque em Compartilhar (quadrado com seta) e depois em “Adicionar à Tela de Início”</span>
+  </div>
+  <button class="x" id="ios-close" type="button" aria-label="Fechar aviso">✕</button>
 </div>
 
 <div id="banner" class="banner"></div>
@@ -314,6 +324,23 @@ document.getElementById('install-bar').addEventListener('click',function(){
   if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;
     document.getElementById('install-bar').classList.remove('show');}
 });
+
+// iPhone/iPad: o Safari não tem botão de instalar, então mostra o passo a passo
+// (some ao instalar ou ao tocar no X, e a escolha fica salva no aparelho)
+(function(){
+  var ua=navigator.userAgent;
+  var ios=/iPad|iPhone|iPod/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1);
+  var instalado=navigator.standalone===true||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches);
+  var fechado=false;
+  try{fechado=localStorage.getItem('iosBarFechada')==='1';}catch(e){}
+  var bar=document.getElementById('ios-bar');
+  if(!ios||instalado||fechado||!bar) return;
+  bar.classList.add('show');
+  document.getElementById('ios-close').addEventListener('click',function(){
+    bar.classList.remove('show');
+    try{localStorage.setItem('iosBarFechada','1');}catch(e){}
+  });
+})();
 
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
