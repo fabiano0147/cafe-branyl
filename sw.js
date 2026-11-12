@@ -1,5 +1,6 @@
-var CACHE = 'cafe-v1';
-var FILES = ['/', '/index.html', '/manifest.json', '/icon-192.png', '/icon-512.png'];
+var CACHE = 'cafe-v2';
+// Caminhos relativos: o site fica em /cafe-branyl/ (GitHub Pages), nao na raiz.
+var FILES = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', function(e){
   e.waitUntil(caches.open(CACHE).then(function(c){ return c.addAll(FILES); }));
@@ -11,6 +12,18 @@ self.addEventListener('activate', function(e){
   }));
   self.clients.claim();
 });
+// Rede primeiro (atualizacoes aparecem logo); cache so quando estiver offline.
 self.addEventListener('fetch', function(e){
-  e.respondWith(caches.match(e.request).then(function(r){ return r || fetch(e.request); }));
+  if(e.request.method!=='GET') return;
+  e.respondWith(
+    fetch(e.request).then(function(res){
+      if(res && res.status===200){
+        var copy=res.clone();
+        caches.open(CACHE).then(function(c){ c.put(e.request, copy); });
+      }
+      return res;
+    }).catch(function(){
+      return caches.match(e.request).then(function(r){ return r || caches.match('./index.html'); });
+    })
+  );
 });
